@@ -1,0 +1,16 @@
+node {
+    def app 
+      stage('clone'){       
+			checkout scm
+       }
+      stage('Build image'){       
+        app = docker.build("odellya/nginx")
+       }
+      stage('Run image'){       
+        docker.image('odellya/nginx').withrun(' -p 80:80') {c -> 
+          sh 'docker ps'
+          sh 'curl localhost'
+
+       }         
+  }  
+}
